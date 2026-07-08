@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escaneo de Seguridad</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#00ff66;font-family:Consolas,monospace;overflow:hidden}
+canvas{position:fixed;inset:0;z-index:-1}
+.container{max-width:900px;margin:auto;padding:30px}
+h1{text-align:center;text-shadow:0 0 12px #00ff66}
+.progress{width:100%;height:26px;border:2px solid #00ff66;margin-top:20px}
+.bar{height:100%;width:0;background:#00ff66;box-shadow:0 0 10px #00ff66}
+#percent{text-align:center;margin-top:10px;font-size:22px}
+#log{margin-top:25px;line-height:1.8;height:300px}
+.final{display:none;text-align:center;margin-top:80px}
+.final h2{font-size:58px}
+.final p{font-size:28px;margin-top:18px}
+button{margin-top:35px;padding:14px 28px;font-size:20px;border:none;border-radius:8px;background:#00ff66;cursor:pointer}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="container">
+<h1>⚠ PROTOCOLO DE SEGURIDAD ACTIVADO ⚠</h1>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div id="percent">0%</div>
+<div id="log"></div>
+<div class="final" id="final">
+<h2>😂 ¡CAÍSTE!</h2>
+<p>Todo fue una broma.</p>
+<p><b>Pero ser metiche no es bueno...</b></p>
+<p style="font-size:40px">👀 ¡Pude haber estado desnudo! 🤣</p>
+<button onclick="location.reload()">Volver a escanear 😏</button>
+</div>
+</div>
+<script>
+const msgs=[
+"✔ Estableciendo conexión...",
+"✔ Detectando sistema operativo...",
+"✔ Analizando almacenamiento...",
+"✔ Preparando simulación...",
+"✔ Fotografías.............. LISTO",
+"✔ Videos................... LISTO",
+"✔ Contactos................ LISTO",
+"✔ Mensajes................. LISTO",
+"✔ Historial del navegador.. LISTO",
+"✔ Memes.................... LISTO 😂",
+"✔ Fotos vergonzosas........ ENCONTRADAS 👀",
+"✔ Finalizando..."
+];
+let p=0,l=0;
+const bar=document.getElementById('bar'),per=document.getElementById('percent'),log=document.getElementById('log');
+let t=setInterval(()=>{
+p++;bar.style.width=p+'%';per.textContent=p+'%';
+if(p%8===0 && l<msgs.length){log.innerHTML+=msgs[l++]+"<br>";}
+if(p>=100){clearInterval(t);document.querySelector('h1').style.display='none';document.querySelector('.progress').style.display='none';per.style.display='none';log.style.display='none';document.getElementById('final').style.display='block';}
+},100);
+const c=document.getElementById('matrix'),x=c.getContext('2d');
+c.width=innerWidth;c.height=innerHeight;
+const letters="01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&";const f=16,cols=Math.floor(c.width/f),drops=Array(cols).fill(1);
+setInterval(()=>{
+x.fillStyle="rgba(0,0,0,.06)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#00ff66";x.font=f+"px monospace";
+for(let i=0;i<drops.length;i++){x.fillText(letters[Math.floor(Math.random()*letters.length)],i*f,drops[i]*f);if(drops[i]*f>c.height&&Math.random()>.975)drops[i]=0;drops[i]++;}
+},35);
+</script>
+</body>
+</html>
